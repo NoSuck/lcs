@@ -1,0 +1,47 @@
+#!/usr/bin/python3
+
+v = True # visualization of matrix
+
+def lcs(a, b):
+	'''longest common substring'''
+	ll = 0 # lcs length
+	lia = -1 # lcs index, a
+	lib = -1
+	r2 = [0 for i in range(len(a))] # single row of matrix
+	if v:
+		print("  " + "  ".join(a))
+	for ib in range(len(b)):
+		r1 = r2
+		r2 = [0 for i in range(len(a))]
+		for ia in range(len(a)):
+			if a[ia] == b[ib]:
+				if ib == 0:
+					r2[ia] = 1
+				else:
+					r2[ia] = r1[ia - 1] + 1
+				if r2[ia] > ll:
+					lia = ia
+					lib = ib
+					ll = r2[ia]
+		if v:
+			print(b[ib] + " " + " ".join([("%02d" % n if n else "..") for n in r2]))
+	lia -= ll - 1 # start, not end
+	lib -= ll - 1
+	print(a + "\n" + " " * lia + "^" * ll)
+	print(b + "\n" + " " * lib + "^" * ll)
+	print()
+
+lcs('aaa hi aaa',
+    'bbb hi bbb')
+
+lcs('ccc xyz ccc',
+    'tuvwxyz')
+
+lcs('..xyz',
+    '..abcxyz')
+
+lcs('abchelloabc',
+    'xyzhelloxyz')
+
+lcs('the more things change',
+    'the more things change')
